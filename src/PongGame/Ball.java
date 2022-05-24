@@ -15,7 +15,7 @@ public class Ball extends JComponent{
 	public static int BALL_HEIGHT = 10;
 	public static int CENTRO_X = Panel.GAME_WIDTH/2-BALL_WIDTH/2;
 	public static int CENTRO_Y = Panel.GAME_HEIGHT/2-BALL_HEIGHT/2;
-	private int tetha = (int) Math.toRadians(270);
+	private double tetha = (double) Math.toRadians(270);
 	private double xIncrement;
 	private double yIncrement;
 	Random rand = new Random();
@@ -24,14 +24,20 @@ public class Ball extends JComponent{
 	}
 	
 	public void drawBall(Graphics2D g2d) {
-			xIncrement = Math.cos(tetha);
-			yIncrement = Math.sin(tetha);
+			System.out.println(xIncrement);
+			xIncrement +=  Math.cos(tetha);
+			yIncrement -=  Math.sin(tetha);
+			//System.out.println(xIncrement);
 			ballDrawing = new Rectangle2D.Double(CENTRO_X + xIncrement, CENTRO_Y + yIncrement, BALL_WIDTH, BALL_WIDTH);
 		
-			if(ballDrawing.contains((Player.drawPlayer(g2d, 1)))){
-				tetha = rand.nextInt(120)+30;
+			
+			
+			
+			
+			if(ballDrawing.contains((Player.drawPlayer(g2d, 1)))){  //colisao
+				tetha = rand.nextInt(120)+30+180; 
 			}
-			if(ballDrawing.contains((Player.drawPlayer(g2d, 2)))){
+			if(ballDrawing.contains((Player.drawPlayer(g2d, 2)))){ //colisao
 				tetha = rand.nextInt(120)+30+180;
 			}
 			
