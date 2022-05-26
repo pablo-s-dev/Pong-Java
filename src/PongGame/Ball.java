@@ -9,24 +9,23 @@ import javax.swing.JPanel;
 import java.math.*;
 import java.util.Random;
 
-public class Ball extends JComponent{
-	public Rectangle2D.Double ballDrawing;
+public class Ball{
+	public static Rectangle2D.Double ballDrawing;
 	public static int BALL_WIDTH = 10;
 	public static int BALL_HEIGHT = 10;
 	public static int CENTRO_X = Panel.GAME_WIDTH/2-BALL_WIDTH/2;
 	public static int CENTRO_Y = Panel.GAME_HEIGHT/2-BALL_HEIGHT/2;
 	private double tetha;
 	private double rad;
-	private double xIncrement;
-	private double yIncrement;
+	private double xBall = CENTRO_X;
+	private double yBall = CENTRO_Y;
 	private static boolean wasGoingDown;
 	private static  boolean rebouncedByWall;
+	
 	Random rand = new Random();
 	Ball(){
 		tetha = 270;
 		rad = 3*Math.PI/2;
-		xIncrement = 0;
-		yIncrement = 0;
 		wasGoingDown = true;
 		rebouncedByWall = false;
 		//this.setPreferredSize(new Dimension(BALL_WIDTH, BALL_HEIGHT));
@@ -34,9 +33,9 @@ public class Ball extends JComponent{
 	
 	public void drawBall(Graphics2D g2d) {
 			
-			xIncrement +=  3* Math.cos(rad);
-			yIncrement -=  3*Math.sin(rad);
-			ballDrawing = new Rectangle2D.Double(CENTRO_X + xIncrement, CENTRO_Y + yIncrement, BALL_WIDTH, BALL_HEIGHT);
+			xBall +=  5*Math.cos(rad);
+			yBall -=  5*Math.sin(rad);
+			ballDrawing = new Rectangle2D.Double(xBall, yBall, BALL_WIDTH, BALL_HEIGHT);
 
 			
 			Rectangle2D.Double desenhoDoPlayer1 = (Player.drawPlayer(g2d, 1));
