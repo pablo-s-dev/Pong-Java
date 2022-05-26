@@ -6,17 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
 public class Main {
-	
 	public static Panel panel = new Panel();
 	static Thread t1 = new Thread(panel);
-	
-	
-	
-	
+
 	public static void main(String[] args) {
 		
-	
-	
 	JFrame frame = new JFrame("Pong");
 	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	frame.setLayout(new GridBagLayout());
@@ -26,7 +20,6 @@ public class Main {
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
 	frame.pack();
-	
 
 	}
 	

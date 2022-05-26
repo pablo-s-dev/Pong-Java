@@ -14,29 +14,19 @@ import javax.swing.JComponent;
 public class Player{
 	public static int PADDLE_WIDTH = 50;
 	public static int PADDLE_HEIGHT = 5;
-	
+	public static Rectangle2D.Double paddleTopDrawing;
+	public static Rectangle2D.Double paddleBottomDrawing;
+	public static final int PADDLE_CENTER_X = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
 
 	Player(){
-		
+		paddleTopDrawing = new Rectangle2D.Double(PADDLE_CENTER_X, 20, PADDLE_WIDTH, PADDLE_HEIGHT);
+		paddleBottomDrawing = new Rectangle2D.Double(PADDLE_CENTER_X, Panel.GAME_HEIGHT - 60, PADDLE_WIDTH, PADDLE_HEIGHT);
+
 	}
 	
-	public static Rectangle2D.Double drawPlayer(Graphics2D g2d, int id) {
-		if(id == 1) {
-			Rectangle2D.Double paddleTopDrawing = new Rectangle2D.Double(Panel.paddleTopX, 20, PADDLE_WIDTH, PADDLE_HEIGHT);
-			//System.out.println("paddle 1 criado");
-			g2d.setColor(new Color(208, 207, 207));
-			g2d.fill(paddleTopDrawing);	
-			return paddleTopDrawing;
-		}
-		if(id == 2) {
-			Rectangle2D.Double 	paddleBottomDrawing = new Rectangle2D.Double(Panel.paddleBottomX, Panel.GAME_HEIGHT - 60, PADDLE_WIDTH, PADDLE_HEIGHT);
-			//System.out.println("paddle 2 criado");
-			g2d.setColor(new Color(208, 207, 207));
-			g2d.fill(paddleBottomDrawing);		
-			return paddleBottomDrawing;
-		}
-		else{
-			return null;
-		}
+	public static void drawPlayers(Graphics2D g2d) {
+		g2d.setColor(new Color(208, 207, 207));
+		g2d.fill(paddleTopDrawing);
+		g2d.fill(paddleBottomDrawing);
 	}
 }

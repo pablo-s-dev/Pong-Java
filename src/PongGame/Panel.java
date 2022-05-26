@@ -16,21 +16,21 @@ import javax.swing.KeyStroke;
 
 
 public class Panel extends JPanel implements Runnable{
-	static Player player1 = new Player();
-	static Player player2 = new Player();
+	static Player player;
 	public static final int GAME_WIDTH = 400;
 	public static final int GAME_HEIGHT = 700;
 	//public static final int SCALE = 3;
 	public static final Dimension GAME_DIMENSION = new Dimension(GAME_WIDTH, GAME_HEIGHT);
-	static Ball ball = new Ball();
+	static Ball ball;
 	public static boolean isRunning = true;
 	public static int bottomPoints;
 	public static int topPoints;
-	public static int paddleBottomX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
-	public static int paddleTopX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
+	
 	
 	JLabel textPoints = new JLabel("Alo");
 	Panel(){
+		ball = new Ball();
+		player = new Player();
 		
 		this.setBackground(new Color(40, 40, 40));
 		this.setLayout(null);
@@ -68,16 +68,16 @@ public class Panel extends JPanel implements Runnable{
 	public class MoveBottomToLeft extends AbstractAction{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(isRunning == true && paddleBottomX > 0)
-				paddleBottomX -= 10;
+			if(isRunning == true && Player.paddleBottomDrawing.x > 0)
+				Player.paddleBottomDrawing.x -= 10;
 			}
 	}
 	public class MoveBottomToRight extends AbstractAction{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if((isRunning == true && (paddleBottomX + Player.PADDLE_WIDTH) < GAME_WIDTH))
-				paddleBottomX += 10;
+			if((isRunning == true && (Player.paddleBottomDrawing.x + Player.PADDLE_WIDTH) < GAME_WIDTH))
+				Player.paddleBottomDrawing.x += 10;
 			
 		}
 	}
@@ -87,8 +87,8 @@ public class Panel extends JPanel implements Runnable{
 	public class MoveTopToLeft extends AbstractAction{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(isRunning == true && paddleTopX > 0)
-			paddleTopX -= 10;
+			if(isRunning == true && Player.paddleTopDrawing.x > 0)
+			Player.paddleTopDrawing.x -= 10;
 		}
 	}
 	
@@ -97,8 +97,8 @@ public class Panel extends JPanel implements Runnable{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(isRunning == true && paddleTopX + Player.PADDLE_WIDTH < GAME_WIDTH)
-			paddleTopX += 10;
+			if(isRunning == true && Player.paddleTopDrawing.x + Player.PADDLE_WIDTH < GAME_WIDTH)
+			Player.paddleTopDrawing.x += 10;
 		}
 	}
 	
@@ -108,7 +108,8 @@ public class Panel extends JPanel implements Runnable{
 		Graphics2D g2d = (Graphics2D) g; 
 		g2d.setColor(new Color(40,40,40));
 		super.paintComponent(g2d);
-		ball.drawBall(g2d);
+		Ball.drawBall(g2d);
+		Player.drawPlayers(g2d);
 		
 	}
 	static void Restart(){
@@ -118,15 +119,15 @@ public class Panel extends JPanel implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ball = new Ball();
-		paddleBottomX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
-		paddleTopX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
 		Panel.isRunning = true;
+		ball = new Ball();
+		player = new Player();
 	}
-
+	
 
 	@Override
 	public void run() {
+		
 		double pastTime = System.nanoTime(); //salvando um instante de tempo
 		double timePerFrame = 1000000000/60; //duracao em nano segundos de cada frame
 		//System.out.println("60");
@@ -141,4 +142,5 @@ public class Panel extends JPanel implements Runnable{
 			}
 		}
 	}
+	
 }
