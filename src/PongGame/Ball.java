@@ -70,13 +70,15 @@ public class Ball{
 			}
 			
 			///////////// PONTOS //////////////////
-			if(ballDrawing.y < - Ball.BALL_HEIGHT - 10) {
+			if(ballDrawing.y < -20) {  //se o y estiver negativo
+				Panel.isRunning = false;
 				System.out.println("Ponto do player de baixo");
 				Panel.bottomPoints++;
 				System.out.println(Panel.bottomPoints);
 				Panel.Restart();
 			}
 			if(ballDrawing.y > Panel.GAME_HEIGHT + Ball.BALL_HEIGHT) {
+				Panel.isRunning = false;
 				System.out.println("Ponto do player de cima");
 				Panel.topPoints++;
 				System.out.println(Panel.topPoints);

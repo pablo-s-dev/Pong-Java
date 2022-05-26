@@ -26,8 +26,8 @@ public class Panel extends JPanel implements Runnable{
 	public static boolean isRunning = true;
 	public static int bottomPoints;
 	public static int topPoints;
-	public static int paddle2x = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
-	public static int paddle1x = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
+	public static int paddleBottomX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
+	public static int paddleTopX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
 	
 	JLabel textPoints = new JLabel("Alo");
 	Panel(){
@@ -43,72 +43,62 @@ public class Panel extends JPanel implements Runnable{
 		textPoints.setForeground(Color.white);
 		this.add(textPoints);
 		
-		Action leftAction = new LeftAction();
-		Action rightAction = new RightAction();
-		Action leftAction1 = new LeftAction1();
-		Action rightAction1 = new RightAction1();
+		Action moveTopToLeft = new MoveTopToLeft();
+		Action moveTopToRight = new MoveTopToRight();
+		Action moveBottomToLeft = new MoveBottomToLeft();
+		Action moveBottomToRight = new MoveBottomToRight();
 		
-		this.getInputMap().put(KeyStroke.getKeyStroke('a'), "LeftKey");
-		this.getActionMap().put("LeftKey", leftAction);
+		this.getInputMap().put(KeyStroke.getKeyStroke('a'), "moveBottomToLeft");
+		this.getActionMap().put("moveBottomToLeft", moveBottomToLeft);
 		
-		this.getInputMap().put(KeyStroke.getKeyStroke('d'), "RightKey");
-		this.getActionMap().put("RightKey", rightAction);
+		this.getInputMap().put(KeyStroke.getKeyStroke('d'), "moveBottomToRight");
+		this.getActionMap().put("moveBottomToRight", moveBottomToRight);
 		
-	
+		this.getInputMap().put(KeyStroke.getKeyStroke('j'), "moveTopToLeft");
+		this.getActionMap().put("moveTopToLeft", moveTopToLeft);
+		
+		this.getInputMap().put(KeyStroke.getKeyStroke('l'), "moveTopToRight");
+		this.getActionMap().put("moveTopToRight", moveTopToRight);
+		
+		
 		 //#######################PLAYER2#############################
-		this.getInputMap().put(KeyStroke.getKeyStroke('j'), "LeftKey1");
-		this.getActionMap().put("LeftKey1", leftAction1);
 		
-		this.getInputMap().put(KeyStroke.getKeyStroke('l'), "RightKey1");
-		this.getActionMap().put("RightKey1", rightAction1);
 	
 	}
-	public class LeftAction extends AbstractAction{
+	public class MoveBottomToLeft extends AbstractAction{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			paddle2x -= 10;
-			//System.out.println(paddle2x);
-			//System.out.println("esquerda");
-			
-			if(paddle2x < 0) 
-				paddle2x = 0;
-		}
+			if(isRunning == true && paddleBottomX > 0)
+				paddleBottomX -= 10;
+			}
 	}
-	public class RightAction extends AbstractAction{
+	public class MoveBottomToRight extends AbstractAction{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			paddle2x += 10;
-			//System.out.println(paddle2x);
-			//System.out.println("direita");
-			if(paddle2x > 335) 
-				paddle2x = 335;
+			if((isRunning == true && (paddleBottomX + Player.PADDLE_WIDTH) < GAME_WIDTH))
+				paddleBottomX += 10;
+			
 		}
 	}
 	
 	 //#######################PLAYER2##########################
 	 
-	public class LeftAction1 extends AbstractAction{
+	public class MoveTopToLeft extends AbstractAction{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			paddle1x -= 10;
-			//System.out.println(paddle1x);
-			//System.out.println("esquerda");
-			if(paddle1x < 0) 
-				paddle1x = 0;
+			if(isRunning == true && paddleTopX > 0)
+			paddleTopX -= 10;
 		}
 	}
 	
 
-	public class RightAction1 extends AbstractAction{
+	public class MoveTopToRight extends AbstractAction{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			paddle1x += 10;
-			//System.out.println(paddle1x);
-			//System.out.println("direita");
-			if(paddle1x > 335) 
-				paddle1x = 335;
+			if(isRunning == true && paddleTopX + Player.PADDLE_WIDTH < GAME_WIDTH)
+			paddleTopX += 10;
 		}
 	}
 	
@@ -121,25 +111,6 @@ public class Panel extends JPanel implements Runnable{
 		ball.drawBall(g2d);
 		
 	}
-
-	@Override
-	public void run() {
-		double pastTime = System.nanoTime(); //salvando um instante de tempo
-		double timePerFrame = 1000000000/60; //duracao em nano segundos de cada frame
-		//System.out.println("60");
-		while(Panel.isRunning) {
-			double currentTime = System.nanoTime();  //salvando outro instante de tempo
-			if((currentTime- pastTime) >= timePerFrame){
-				repaint();
-				//System.out.println("novo frame");
-				pastTime = currentTime;
-				
-			}
-		}
-		
-		
-		
-	}
 	static void Restart(){
 		try {
 			Thread.sleep(1000);
@@ -147,9 +118,27 @@ public class Panel extends JPanel implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		paddle2x = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
-		paddle1x = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
 		ball = new Ball();
+		paddleBottomX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
+		paddleTopX = (Panel.GAME_WIDTH/2 - Player.PADDLE_WIDTH/2);
+		Panel.isRunning = true;
 	}
 
+
+	@Override
+	public void run() {
+		double pastTime = System.nanoTime(); //salvando um instante de tempo
+		double timePerFrame = 1000000000/60; //duracao em nano segundos de cada frame
+		//System.out.println("60");
+		while(true) {
+			if(isRunning) {
+			double currentTime = System.nanoTime();  //salvando outro instante de tempo
+			if((currentTime- pastTime) >= timePerFrame){
+				repaint();
+				//System.out.println("novo frame");
+				pastTime = currentTime;
+			}
+			}
+		}
+	}
 }

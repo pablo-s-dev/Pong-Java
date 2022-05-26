@@ -1,6 +1,5 @@
 package PongGame;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -18,7 +17,7 @@ public class Main {
 		
 	
 	
-	JFrame frame = new JFrame();
+	JFrame frame = new JFrame("Pong");
 	frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	frame.setLayout(new GridBagLayout());
 	frame.add(panel);
@@ -26,6 +25,7 @@ public class Main {
 	frame.setSize(Panel.GAME_WIDTH, Panel.GAME_HEIGHT);
 	frame.setLocationRelativeTo(null);
 	frame.setVisible(true);
+	frame.pack();
 	
 
 	}
