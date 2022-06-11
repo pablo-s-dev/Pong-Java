@@ -16,10 +16,14 @@ public class Main {
 	frame.setLayout(new GridBagLayout());
 	frame.add(panel);
 	t1.start();
+	frame.setResizable(false);
 	frame.setSize(Panel.GAME_WIDTH, Panel.GAME_HEIGHT);
 	frame.setLocationRelativeTo(null);
-	frame.setVisible(true);
+	frame.setAlwaysOnTop(true);
 	frame.pack();
+	frame.setVisible(true);
+	
+	
 
 	}
 	
